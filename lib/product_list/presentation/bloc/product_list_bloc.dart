@@ -18,14 +18,32 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
     on<ProductListEvent>((event, emit) async {
       emit(state.copyWith(screenStatus: ScreenStatus.loading));
       if (event is GetAllProducts) {
-        var res= await productListUseCase.call();
+        var res = await productListUseCase.call();
 
-          emit(state.copyWith(
-              screenStatus: ScreenStatus.successfully, productModel: res));
-
+        emit(state.copyWith(
+            screenStatus: ScreenStatus.successfully, productModel: res));
       } else if (event is ChangeFavIcon) {
         emit(state.copyWith(
             screenStatus: ScreenStatus.successfully, isFav: (event.isFave)));
+      } else if (event is SearchEvent) {
+        var res = await productListUseCase.call();
+        ProductModel newProductModel = ProductModel();
+        List<Products> result = [];
+        for (int i = 0; i < res.products!.length; i++) {
+          String? title = res.products?[i].title;
+          if (title != null &&
+              title.toLowerCase().contains(event.keyword.toLowerCase()) ==
+                  true) {
+            result.add(res.products![i]);
+          }
+          // for (int i = 0; i < result.length; i++) {
+          //   print(result[i].title);
+          // }
+        }
+        newProductModel.products = result;
+        emit(state.copyWith(
+            screenStatus: ScreenStatus.successfully,
+            productModel: newProductModel));
       }
     });
   }

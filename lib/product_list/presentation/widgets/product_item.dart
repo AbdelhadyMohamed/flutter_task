@@ -34,7 +34,10 @@ class ProductItem extends StatelessWidget {
                   child: Stack(
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(15.r),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15.r),
+                          topRight: Radius.circular(15.r),
+                        ),
                         child: CachedNetworkImage(
                             imageUrl: product?.thumbnail ?? "",
                             fit: BoxFit.fill,

@@ -19,13 +19,15 @@ class ProductListScreen extends StatelessWidget {
           bool fav = false;
           return Scaffold(
             appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
               title: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 5.w),
                 child: Row(
                   children: [
                     Expanded(
                       child: SizedBox(
-                        height: 65.h,
+                        height: 60.h,
                         child: SearchBar(
                           padding: MaterialStatePropertyAll<EdgeInsets>(
                               EdgeInsets.symmetric(

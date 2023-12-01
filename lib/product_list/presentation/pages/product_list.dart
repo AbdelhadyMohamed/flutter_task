@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_task/product_list/data/data_sources/remote_ds/product_list_ds_impl.dart';
-import 'package:flutter_task/product_list/data/repositories/product_list_repo_impl.dart';
 import 'package:flutter_task/product_list/domain/use_cases/product_list_use_case.dart';
-import 'package:flutter_task/shared/api_manager.dart';
 import '../../../config.dart';
 import '../bloc/product_list_bloc.dart';
 import '../widgets/product_item.dart';
@@ -15,9 +12,8 @@ class ProductListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProductListBloc(ProductListUseCase(
-          ProductListRepoImpl(ProductRemoteDSImpl(ApiManager()))))
-        ..add(GetAllProducts()),
+      create: (context) =>
+          ProductListBloc(getIt<ProductListUseCase>())..add(GetAllProducts()),
       child: BlocBuilder<ProductListBloc, ProductListState>(
         builder: (context, state) {
           bool fav = false;
